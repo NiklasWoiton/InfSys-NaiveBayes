@@ -3,6 +3,7 @@
 
 import csv
 import nltk
+import random
 
 #---Funktionen---
 
@@ -20,7 +21,7 @@ def cleanedData(listData):
             newData.append(element[len(element)-len(descriptionData):])
             continue
         newData.append(element)
-    return newData
+    return random.shuffle(newData)
 
 
 def rating_features(tuple):
@@ -28,10 +29,6 @@ def rating_features(tuple):
     for feature in range(0, len(tuple)):
         features[descriptionData[feature]] = tuple[feature]
     return features
-
-
-def featuresets(i):
-    return [(rating_features(n), rating) for (n, rating) in ratings]
 
 
 def classifyTuple(tuple):
@@ -45,7 +42,8 @@ listData = cleanedData(listData)
 
 ratings = [(listData[i][1:], listData[i][0]) for i in range(0, len(listData))]
 
-train_set, test_set = featuresets(1)[:len(ratings)/2], featuresets(1)[len(ratings)/2:]
+featuresets = [(rating_features(n), rating) for (n, rating) in ratings]
+train_set, test_set = featuresets[:len(ratings)/2], featuresets[len(ratings)/2:]
 
 classifier = nltk.NaiveBayesClassifier.train(train_set)
 classifier.show_most_informative_features(10)
