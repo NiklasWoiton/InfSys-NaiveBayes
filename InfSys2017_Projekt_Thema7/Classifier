@@ -17,7 +17,8 @@ def transformedData():
 def rating_features(tuple):
     features = {}
     for feature in range(0, len(tuple)):
-        features[descriptionData[feature]] = tuple[feature]
+        features[descriptionData[feature+1]] = tuple[feature]
+    print features
     return features
 
 
