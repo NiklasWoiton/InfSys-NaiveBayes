@@ -9,22 +9,26 @@ import nltk
 2.Transformation in eine Liste aus Tupeln
     *Dabei werden die für den Klassifikator irrelevante Merkmale (0 bis 3) ausgesiebt.
 """
+
+
 def transformedData():
     rawData = csv.reader(open("rawData.csv", "rb"))
     listData = [tuple(line)[4:] for line in rawData]
     return listData
 
+
 def cleanedData(listData):
     newData = []
     for element in listData:
         if len(element[0]) > 2:
-            print element
             continue
         newData.append(element)
     return newData
 
+
 def rating_features(tuple,feature):
     return {descriptionData[feature]: tuple[feature]}
+
 
 def featuresets(i):
     return [(rating_features(n, i), rating) for (n, rating) in ratings]
