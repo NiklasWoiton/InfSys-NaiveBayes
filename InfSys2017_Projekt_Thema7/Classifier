@@ -20,7 +20,8 @@ def transformedData():
 def cleanedData(listData):
     newData = []
     for element in listData:
-        if len(element[0]) > 2:
+        if len(element) > len(descriptionData):
+            newData.append(element[len(element)-len(descriptionData):])
             continue
         newData.append(element)
     return newData
