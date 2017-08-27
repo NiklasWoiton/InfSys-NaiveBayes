@@ -10,19 +10,8 @@ import random
 
 def transformedData():
     rawData = csv.reader(open("rawData.csv", "rb"))
-    listData = [tuple(line)[4:] for line in rawData]
+    listData = [tuple(line)[len(line)-8:] for line in rawData]
     return listData
-
-
-def cleanedData(listData):
-    newData = []
-    for element in listData:
-        if len(element) > len(descriptionData):
-            newData.append(element[len(element)-len(descriptionData):])
-            continue
-        newData.append(element)
-    random.shuffle(newData)
-    return newData
 
 
 def rating_features(tuple):
@@ -39,7 +28,7 @@ def classifyTuple(tuple):
 
 listData = transformedData()
 descriptionData = listData.pop(0)
-listData = cleanedData(listData)
+random.shuffle(listData)
 
 ratings = [(listData[i][1:], listData[i][0]) for i in range(0, len(listData))]
 
@@ -51,4 +40,4 @@ classifier.show_most_informative_features(10)
 
 print "Accuracy: ", nltk.classify.accuracy(classifier, test_set)
 
-classifyTuple(("-1", "0", "1", "2", "3", "4", "5"))#Beispiel Test-Tupel
+classifyTuple(("3", "3", "3", "3", "3", "3", "3"))#Beispiel Test-Tupel
