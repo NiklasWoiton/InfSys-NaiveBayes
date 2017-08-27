@@ -33,6 +33,7 @@ def rating_features(tuple):
 def featuresets(i):
     return [(rating_features(n), rating) for (n, rating) in ratings]
 
+
 def classifyTuple(tuple):
     print classifier.classify(rating_features(tuple))
 
@@ -42,7 +43,7 @@ listData = transformedData()
 descriptionData = listData.pop(0)
 listData = cleanedData(listData)
 
-ratings = [(listData[i], listData[i][0]) for i in range(0, len(listData))]
+ratings = [(listData[i][1:], listData[i][0]) for i in range(0, len(listData))]
 
 train_set, test_set = featuresets(1)[:len(ratings)/2], featuresets(1)[len(ratings)/2:]
 
