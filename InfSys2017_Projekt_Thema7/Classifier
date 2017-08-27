@@ -1,0 +1,46 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+import csv
+import nltk
+
+"""
+1.Oeffnung der CSV-Datei.
+2.Transformation in eine Liste aus Tupeln
+    *Dabei werden die für den Klassifikator irrelevante Merkmale (0 bis 3) ausgesiebt.
+"""
+def transformedData():
+    rawData = csv.reader(open("rawData.csv", "rb"))
+    listData = [tuple(line)[4:] for line in rawData]
+    return listData
+
+def cleanedData(listData):
+    newData = []
+    for element in listData:
+        if len(element[0]) > 2:
+            print element
+            continue
+        newData.append(element)
+    return newData
+
+def rating_features(tuple,feature):
+    return {descriptionData[feature]: tuple[feature]}
+
+def featuresets(i):
+    return [(rating_features(n, i), rating) for (n, rating) in ratings]
+
+#---Ausfuehrung---
+
+listData = transformedData()
+descriptionData = listData.pop(0)
+listData = cleanedData(listData)
+
+ratings = [(listData[i], listData[i][0]) for i in range(0, len(listData))]
+
+train_set1, test_set1 = featuresets(1)[:len(ratings)/2], featuresets(1)[len(ratings)/2:]
+
+classifier = nltk.NaiveBayesClassifier.train(train_set1)
+classifier.show_most_informative_features(10)
+
+print "Accuracy: ", nltk.classify.accuracy(classifier, test_set1)
+
