@@ -41,10 +41,12 @@ listData = cleanedData(listData)
 
 ratings = [(listData[i], listData[i][0]) for i in range(0, len(listData))]
 
+#Von hier an ist der Code erstmal nur auf Merkmal ausgerichtet, genereller Code folgt
 train_set1, test_set1 = featuresets(1)[:len(ratings)/2], featuresets(1)[len(ratings)/2:]
 
 classifier = nltk.NaiveBayesClassifier.train(train_set1)
 classifier.show_most_informative_features(10)
 
+print "\nNaive Bayes bisher nur mit " + descriptionData[1]
 print "Accuracy: ", nltk.classify.accuracy(classifier, test_set1)
 
