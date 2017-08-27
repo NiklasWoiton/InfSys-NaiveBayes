@@ -21,7 +21,8 @@ def cleanedData(listData):
             newData.append(element[len(element)-len(descriptionData):])
             continue
         newData.append(element)
-    return random.shuffle(newData)
+    random.shuffle(newData)
+    return newData
 
 
 def rating_features(tuple):
