@@ -10,7 +10,9 @@ def changeData():
     changeThree = [tuple(line)[len(line) - 4:len(line) - 3:] for line in changeOne]  # saves column 3 and 4
     changeFour = [tuple(line)[len(line) - 2:len(line) - 1:] for line in changeOne]  # saves column 6
     writer = csv.writer(open("workData.csv", "wb"))
-    for x in range(0, len(changeOne), 1):
+    firstRow = tuple(['Gesamtbewertung','Qualitaet','Einrichtung','Kueche','Service'])
+    writer.writerow(firstRow)
+    for x in range(1, len(changeOne), 1):
         toDoRow = (changeTwo[x]+changeThree[x]+changeFour[x])
         writer.writerow(toDoRow)
         x += x
