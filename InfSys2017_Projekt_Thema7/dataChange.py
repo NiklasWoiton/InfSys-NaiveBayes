@@ -15,7 +15,7 @@ def changeData():
     changeFour = [tuple(line)[len(line) - 2:len(line) - 1:] for line in changeOne]  # saves column 6
     print changeFour[0]
     print changeFour[2]
-    writer = csv.writer(open("workData.csv", "w"))
+    writer = csv.writer(open("workData.csv", "wb"))
     for x in range(0, len(changeOne), 1):
         toDoRow = (changeTwo[x]+changeThree[x]+changeFour[x])
         # print toDoRow
