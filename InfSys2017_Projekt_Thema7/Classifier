@@ -9,8 +9,8 @@ import random
 
 
 def transformedData():
-    rawData = csv.reader(open("rawData.csv", "rb"))
-    listData = [tuple(line)[len(line)-8:] for line in rawData]
+    workData = csv.reader(open("workData.csv", "rb"))
+    listData = [tuple(line) for line in workData]
     return listData
 
 
@@ -18,7 +18,6 @@ def rating_features(tuple):
     features = {}
     for feature in range(0, len(tuple)):
         features[descriptionData[feature+1]] = tuple[feature]
-    print features
     return features
 
 
@@ -37,8 +36,6 @@ featuresets = [(rating_features(n), rating) for (n, rating) in ratings]
 train_set, test_set = featuresets[:len(ratings)/2], featuresets[len(ratings)/2:]
 
 classifier = nltk.NaiveBayesClassifier.train(train_set)
-classifier.show_most_informative_features(10)
+classifier.show_most_informative_features(20)
 
 print "Accuracy: ", nltk.classify.accuracy(classifier, test_set)
-
-classifyTuple(("3", "3", "3", "3", "3", "3", "3"))#Beispiel Test-Tupel
