@@ -6,16 +6,22 @@ from itertools import chain, product
 def changeData():
     rawData = csv.reader(open("rawData.csv", "rb"))
     changeOne = [tuple(line)[len(line) - 8:] for line in rawData]  # drops columns left of overall Rating
-    changeTwo = [tuple(line)[:len(line) - 6] for line in changeOne]  # speichert spalte 0 und 1
+    changeTwo = [tuple(line)[:len(line) - 6] for line in changeOne]  # saves column 0 und 1
     print changeTwo[0]
     print changeTwo[2]
-    changeThree = [tuple(line)[len(line) - 2:len(line) - 1:] for line in changeOne]
+    changeThree = [tuple(line)[len(line) - 5:len(line) - 3:] for line in changeOne]  # saves column 3 and 4
     print changeThree[0]
     print changeThree[2]
-    changeFour = [tuple(line)[len(line) - 5:len(line) - 3:] for line in changeOne]
+    changeFour = [tuple(line)[len(line) - 2:len(line) - 1:] for line in changeOne]  # saves column 6
     print changeFour[0]
     print changeFour[2]
-    # print dir(tuple)
-   # print dir(list)
+    # writer = csv.writer(open("wordData.csv", "w"))
+    # for x in range(0, changeOne.count(), 1):
+        # writer.
+
+
+
+
+
 
 changeData()
