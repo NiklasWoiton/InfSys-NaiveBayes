@@ -47,11 +47,17 @@ class NBClassifier(object):
         if self.classifier is None:
             self.trainClassifier()
         for element in range(0, len(featureTuple)):
-            if int(featureTuple[element]) < -1 or int(featureTuple[element]) > 5:
-                return "Error: Invalid Input.\n" + \
-                    "Please insert Values between -1(no Input) and 5"
+            try:
+                if int(featureTuple[element]) < -1 or int(featureTuple[element]) > 5:
+                    return self.inputError()
+            except:
+                return self.inputError()
         return self.classifier.classify(self.featureTransformation(featureTuple))
 
+    def inputError(self):
+        return "Error: Invalid Input.\n" + \
+                        "Please insert Values between -1 (no Input) and 5"
+    
     def startGUI(self):
         GUI.start(self)
     pass
