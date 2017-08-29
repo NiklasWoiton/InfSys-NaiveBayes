@@ -4,7 +4,7 @@
 import csv
 import nltk
 import random
-
+import GUI
 
 class NBClassifier(object):
 
@@ -40,20 +40,29 @@ class NBClassifier(object):
     def featureTransformation(self,featureTuple):
         features = {}
         for element in range(1, len(featureTuple)):
-            features[self.identifier[element]] = str(featureTuple[element])
+            features[self.identifier[element]] = featureTuple[element]
         return features
 
-    def classifyTuple(self,featureTuple):
-        if self.classifier == None:
+    def classifyTuple(self, featureTuple):
+        if self.classifier is None:
             self.trainClassifier()
-        if len(self.identifier) - 1 != len(featureTuple):
-            print "Error: " + str(featureTuple) + " is not a valuable Input.\n" + \
-                "Please insert a Tuple of " + str(len(self.identifier) - 1) + " Values between -1 and 5."
-        else:
-            print self.classifier.classify(self.featureTransformation(featureTuple))
+        for element in range(0, len(featureTuple)):
+            if int(featureTuple[element]) < -1 or int(featureTuple[element]) > 5:
+                return "Error: Invalid Input.\n" + \
+                    "Please insert Values between -1(no Input) and 5"
+        return self.classifier.classify(self.featureTransformation(featureTuple))
 
+    def startGUI(self):
+        GUI.start(self)
     pass
 
-nbClassifier = NBClassifier("workData.csv")
-#nbClassifier.testClassifier(0.9)
-#nbClassifier.classifyTuple((-1, 4, 3, 2))
+def startGUI():
+    nbClassifier = NBClassifier("workData.csv")
+    nbClassifier.startGUI()
+
+def startAccuracyTest(testPartition):
+    nbClassifier = NBClassifier("workData.csv")
+    nbClassifier.testClassifier(testPartition)
+
+startGUI()
+
