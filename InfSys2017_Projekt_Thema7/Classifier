@@ -13,6 +13,7 @@ class NBClassifier(object):
         self.listDataSet = []
         self.identifier = []
         self.classifier = None
+        self.transformedData()
 
     def transformedData(self):
         readCSV= csv.reader(open(self.csvDataSet, "rb"))
@@ -39,14 +40,20 @@ class NBClassifier(object):
     def featureTransformation(self,featureTuple):
         features = {}
         for element in range(1, len(featureTuple)):
-            features[self.identifier[element]] = featureTuple[element]
+            features[self.identifier[element]] = str(featureTuple[element])
         return features
 
-    def classifyTuple(self,tuple):
-        print self.classifier.classify(self.featureTransformation(tuple))
+    def classifyTuple(self,featureTuple):
+        if self.classifier == None:
+            self.trainClassifier()
+        if len(self.identifier) - 1 != len(featureTuple):
+            print "Error: " + str(featureTuple) + " is not a valuable Input.\n" + \
+                "Please insert a Tuple of " + str(len(self.identifier) - 1) + " Values between -1 and 5."
+        else:
+            print self.classifier.classify(self.featureTransformation(featureTuple))
 
     pass
 
 nbClassifier = NBClassifier("workData.csv")
-nbClassifier.transformedData()
-nbClassifier.testClassifier(0.5)
+#nbClassifier.testClassifier(0.9)
+#nbClassifier.classifyTuple((-1, 4, 3, 2))
