@@ -5,37 +5,44 @@ import csv
 import nltk
 import random
 
-#---Funktionen---
+
+class NBClassifier(object):
+
+    def __init__(self, csvDataSet):
+        self.csvDataSet = csvDataSet
+        self.listDataSet = []
+        self.identifier = []
+        self.classifier = None
 
 
-def transformedData():
-    workData = csv.reader(open("workData.csv", "rb"))
-    listData = [tuple(line) for line in workData]
-    return listData
+    def transformedData(self):
+        readCSV= csv.reader(open(self.csvDataSet, "rb"))
+        self.listDataSet = [tuple(line) for line in readCSV]
+        self.identifier = self.listDataSet.pop(0)
+        random.shuffle(self.listDataSet)
 
 
-def rating_features(tuple):
-    features = {}
-    for feature in range(0, len(tuple)):
-        features[descriptionData[feature+1]] = tuple[feature]
-    return features
+    def trainClassifier(self):
+        features_class_tuples = [(self.listDataSet[i], self.listDataSet[i][0]) for i in range(0, len(self.listDataSet))]
+        featureSet = [(self.featureTransformation(n), rating) for (n, rating) in features_class_tuples]
+        trainSet, testSet = featureSet[:len(features_class_tuples) / 2], featureSet[len(features_class_tuples) / 2:]
+        self.classifier = nltk.NaiveBayesClassifier.train(trainSet)
+
+        self.classifier.show_most_informative_features(10)
+        print "Accuracy: ", nltk.classify.accuracy(self.classifier, testSet)
+
+    def featureTransformation(self,featureTuple):
+        features = {}
+        for element in range(1, len(featureTuple)):
+            features[self.identifier[element]] = featureTuple[element]
+        return features
 
 
-def classifyTuple(tuple):
-    print classifier.classify(rating_features(tuple))
+    def classifyTuple(self,tuple):
+        print self.classifier.classify(self.featureTransformation(tuple))
 
-#---Ausfuehrung---
+    pass
 
-listData = transformedData()
-descriptionData = listData.pop(0)
-random.shuffle(listData)
-
-ratings = [(listData[i][1:], listData[i][0]) for i in range(0, len(listData))]
-
-featuresets = [(rating_features(n), rating) for (n, rating) in ratings]
-train_set, test_set = featuresets[:len(ratings)/2], featuresets[len(ratings)/2:]
-
-classifier = nltk.NaiveBayesClassifier.train(train_set)
-classifier.show_most_informative_features(20)
-
-print "Accuracy: ", nltk.classify.accuracy(classifier, test_set)
+nbClassifier = NBClassifier("workData.csv")
+nbClassifier.transformedData()
+nbClassifier.trainClassifier()
