@@ -49,4 +49,4 @@ class NBClassifier(object):
 
 nbClassifier = NBClassifier("workData.csv")
 nbClassifier.transformedData()
-nbClassifier.testClassifier(2)
+nbClassifier.testClassifier(0.5)
