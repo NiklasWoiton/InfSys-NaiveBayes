@@ -14,6 +14,7 @@ class NBClassifier(object):
         self.identifier = []
         self.classifier = None
         self.transformedData()
+        GUI.start(self)
 
     def transformedData(self):
         readCSV= csv.reader(open(self.csvDataSet, "rb"))
@@ -25,17 +26,10 @@ class NBClassifier(object):
         features_class_tuples = [(self.listDataSet[i], self.listDataSet[i][0]) for i in range(0, len(self.listDataSet))]
         featureSet = [(self.featureTransformation(n), rating) for (n, rating) in features_class_tuples]
         trainSet, testSet = featureSet[int(len(features_class_tuples) * testPartition):], featureSet[:int(len(features_class_tuples) * testPartition)]
-        self.classifier = nltk.NaiveBayesClassifier.train(trainSet)
-        return testSet
-
-    def testClassifier(self, testPartition):
-        if testPartition < 0 or testPartition > 1:
-            print "Error: " + str(testPartition) + " is not a valuable Input.\n" + \
-                  "Please insert Values between 0 and 1."
+        if testPartition != 0:
+            return nltk.classify.accuracy(nltk.NaiveBayesClassifier.train(trainSet), testSet)
         else:
-            testSet = self.trainClassifier(testPartition)
-            self.classifier.show_most_informative_features(10)
-            print "Accuracy: ", nltk.classify.accuracy(self.classifier, testSet)
+            self.classifier = nltk.NaiveBayesClassifier.train(trainSet)
 
     def featureTransformation(self,featureTuple):
         features = {}
@@ -46,29 +40,10 @@ class NBClassifier(object):
     def classifyTuple(self, featureTuple):
         if self.classifier is None:
             self.trainClassifier()
-        for element in range(0, len(featureTuple)):
-            try:
-                if int(featureTuple[element]) < -1 or int(featureTuple[element]) > 5:
-                    return self.inputError()
-            except:
-                return self.inputError()
         return self.classifier.classify(self.featureTransformation(featureTuple))
 
-    def inputError(self):
-        return "Error: Invalid Input.\n" + \
-                        "Please insert Values between -1 (no Input) and 5"
-    
-    def startGUI(self):
-        GUI.start(self)
     pass
 
-def startGUI():
-    nbClassifier = NBClassifier("workData.csv")
-    nbClassifier.startGUI()
+nbClassifier = NBClassifier("workData.csv")
 
-def startAccuracyTest(testPartition):
-    nbClassifier = NBClassifier("workData.csv")
-    nbClassifier.testClassifier(testPartition)
-
-startGUI()
 
