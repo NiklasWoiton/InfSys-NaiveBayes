@@ -25,11 +25,12 @@ class NBClassifier(object):
     def trainClassifier(self, testPartition = 0):
         features_class_tuples = [(self.listDataSet[i], self.listDataSet[i][0]) for i in range(0, len(self.listDataSet))]
         featureSet = [(self.featureTransformation(n), rating) for (n, rating) in features_class_tuples]
-        trainSet, testSet = featureSet[int(len(features_class_tuples) * testPartition):], featureSet[:int(len(features_class_tuples) * testPartition)]
         if testPartition != 0:
-            return nltk.classify.accuracy(nltk.NaiveBayesClassifier.train(trainSet), testSet)
+            trainSet, testSet = featureSet[int(len(features_class_tuples) * testPartition):], featureSet[:int(len(features_class_tuples) * testPartition)]
+            trainigsClassifier = nltk.NaiveBayesClassifier.train(trainSet)
+            return nltk.classify.accuracy(trainigsClassifier, testSet)
         else:
-            self.classifier = nltk.NaiveBayesClassifier.train(trainSet)
+            self.classifier = nltk.NaiveBayesClassifier.train(featureSet)
 
     def featureTransformation(self,featureTuple):
         features = {}
