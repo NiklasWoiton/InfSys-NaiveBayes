@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import Tkinter as tk
+import math
 
 
 class GUI(tk.Frame):
@@ -11,6 +12,7 @@ class GUI(tk.Frame):
         self.grid()
         self.featureLabels = []
         self.entries = []
+        self.topLabel = None
         self.classifyButton = None
         self.classifierResultLabel = None
         self.classifierResult = None
@@ -24,12 +26,11 @@ class GUI(tk.Frame):
         self.initLayout()
 
     def initClassifier(self):
-        self.featureLabels.append(tk.Label(self, text="Features"))
-        self.entries.append(tk.Label(self, text="Ratings from 0 to 5"))
+        self.topLabel = (tk.Label(self, text="Bewertungen von 0 bis 5"))
         for element in range(1, len(self.classifier.identifier)):
             self.featureLabels.append(tk.Label(self, text=self.classifier.identifier[element] + ":"))
             self.entries.append(tk.Entry(self))
-        self.classifyButton = tk.Button(self, text="Starte Klassifikation", command=self.onClassifyButtonPressed)
+        self.classifyButton = tk.Button(self, text="Start", command=self.onClassifyButtonPressed)
         self.classifierResultLabel = tk.Label(self, text="Klassifikation:")
         self.classifierResult = tk.Label(self, text="-")
 
@@ -52,21 +53,22 @@ class GUI(tk.Frame):
 
     def initAccuray(self):
         testPartition = 0.9
-        self.accuracyLabel = tk.Label(self, text="(Mit " + str(self.classifier.trainClassifier(testPartition) * 100) +  "% Genauigkeit)")
+        self.accuracyLabel = tk.Label(self, text="(Klassifikationsgenauigkeit von ≈ " + str(int(math.floor(self.classifier.trainClassifier(testPartition) * 100))) + "%)")
 
     def initLayout(self):
+        self.topLabel.grid(row=0, column=0, columnspan=2)
         for element in range(0, len(self.featureLabels)):
-            self.featureLabels[element].grid(row=element, column=0)
-            self.entries[element].grid(row=element, column=1)
-        self.classifyButton.grid(row=len(self.featureLabels), column=1)
-        self.classifierResultLabel.grid(row=len(self.featureLabels) + 1, column=0)
-        self.classifierResult.grid(row=len(self.featureLabels) + 1, column=1)
-        self.accuracyLabel.grid(row=len(self.featureLabels), column=3)
+            self.featureLabels[element].grid(row=element+1, column=0)
+            self.entries[element].grid(row=element+1, column=1)
+        self.classifyButton.grid(row=len(self.featureLabels)+1, column=1)
+        self.classifierResultLabel.grid(row=len(self.featureLabels) + 2, column=0)
+        self.classifierResult.grid(row=len(self.featureLabels) + 2, column=1)
+        self.accuracyLabel.grid(row=len(self.featureLabels) + 3, column=0, columnspan=2)
 
 
 def start(identifier):
         gui = GUI(identifier)
-        gui.master.title('Classifier GUI')
+        gui.master.title('Naive-Bayes-Klassifikator')
         gui.mainloop()
 
 
