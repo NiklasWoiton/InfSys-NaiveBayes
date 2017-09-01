@@ -10,10 +10,8 @@ class NBClassifier(object):
 
     def __init__(self, csvDataSet):
         self.csvDataSet = csvDataSet
-        self.listDataSet = []
-        self.identifier = []
-        self.classifier = None
         self.transformedData()
+        self.trainClassifier()
         GUI.start(self)
 
     def transformedData(self):
@@ -39,8 +37,6 @@ class NBClassifier(object):
         return features
 
     def classifyTuple(self, featureTuple):
-        if self.classifier is None:
-            self.trainClassifier()
         return self.classifier.classify(self.featureTransformation(featureTuple))
 
     pass

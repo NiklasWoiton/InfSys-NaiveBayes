@@ -10,14 +10,6 @@ class GUI(tk.Frame):
         tk.Frame.__init__(self, master)
         self.classifier = classifier
         self.grid()
-        self.featureLabels = []
-        self.entries = []
-        self.topLabel = None
-        self.classifyButton = None
-        self.classifierResultLabel = None
-        self.classifierResult = None
-        self.accuracyTestButton = None
-        self.accuracyLabel = None
         self.initWidgets()
 
     def initWidgets(self):
@@ -27,6 +19,8 @@ class GUI(tk.Frame):
 
     def initClassifier(self):
         self.topLabel = (tk.Label(self, text="Bewertungen von 0 bis 5"))
+        self.featureLabels = []
+        self.entries = []
         for element in range(1, len(self.classifier.identifier)):
             self.featureLabels.append(tk.Label(self, text=self.classifier.identifier[element] + ":"))
             self.entries.append(tk.Entry(self))
