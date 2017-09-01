@@ -31,7 +31,7 @@ class GUI(tk.Frame):
             self.featureLabels.append(tk.Label(self, text=self.classifier.identifier[element] + ":"))
             self.entries.append(tk.Entry(self))
         self.classifyButton = tk.Button(self, text="Start", command=self.onClassifyButtonPressed)
-        self.classifierResultLabel = tk.Label(self, text="Klassifikation:")
+        self.classifierResultLabel = tk.Label(self, text=self.classifier.identifier[0] + ":")
         self.classifierResult = tk.Label(self, text="-")
 
     def onClassifyButtonPressed(self):
