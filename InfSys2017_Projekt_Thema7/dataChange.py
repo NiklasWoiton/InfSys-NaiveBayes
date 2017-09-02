@@ -2,19 +2,19 @@ import csv
 from itertools import chain, product
 
 
-# 0 1 3 4 6 Keep in changeOne aka keep Overall, value, room, cleanliness, service; drop location, fronst desk and buisness service
+# 0 1 2 4 6 Keep in changeOne aka keep Overall, value, room, cleanliness, service; drop location, fronst desk and buisness service
 def changeData():
     rawData = csv.reader(open("rawData.csv", "rb"))
-    changeOne = [tuple(line)[len(line) - 8:] for line in rawData]  # drops columns left of overall Rating
-    changeTwo = [tuple(line)[:len(line) - 5] for line in changeOne]  # saves column 0 und 1
-    changeThree = [tuple(line)[len(line) - 4:len(line) - 3:] for line in changeOne]  # saves column 3 and 4
-    changeFour = [tuple(line)[len(line) - 2:len(line) - 1:] for line in changeOne]  # saves column 6
+    listData = [list(line)[len(line) - 8:] for line in rawData]  # drops columns left of Overall Rating
+    relevantColumns = [0, 1, 2, 4, 6]
+    relevantData = []
+    for row in range(0, len(listData)):
+        relevantData.append([])
+        for column in range(0, len(relevantColumns)):
+            relevantData[row].append(listData[row][relevantColumns[column]])
+    relevantData[0] = tuple(['Gesamtbewertung', 'Qualitaet', 'Einrichtung', 'Kueche', 'Service'])
     writer = csv.writer(open("workData.csv", "wb"))
-    firstRow = tuple(['Gesamtbewertung', 'Qualitaet', 'Einrichtung', 'Kueche', 'Service'])
-    writer.writerow(firstRow)
-    for x in range(1, len(changeOne), 1):
-        toDoRow = (changeTwo[x]+changeThree[x]+changeFour[x])
-        writer.writerow(toDoRow)
-        x += x
+    [writer.writerow(tuple(relevantData[row])) for row in range(0, len(relevantData))]
+
 
 changeData()

@@ -40,29 +40,28 @@ class GUI(tk.Frame):
                     break
             except:
                 break
-        if len(featureList) == len(self.entries)-1:
+        if len(featureList) == len(self.entries) - 1:
             self.classifierResult["text"] = self.classifier.classifyTuple(tuple(featureList))
         else:
             self.classifierResult["text"] = "INVALID INPUT"
 
     def initAccuray(self):
         testPartition = 0.9
-        self.accuracyLabel = tk.Label(self, text="(Klassifikationsgenauigkeit von ≈ " + str(int(math.floor(self.classifier.trainClassifier(testPartition) * 100))) + "%)")
+        self.accuracyLabel = tk.Label(self, text="(Klassifikationsgenauigkeit von ≈ " + str(
+            int(math.floor(self.classifier.trainClassifier(testPartition) * 100))) + "%)")
 
     def initLayout(self):
         self.topLabel.grid(row=0, column=0, columnspan=2)
         for element in range(0, len(self.featureLabels)):
-            self.featureLabels[element].grid(row=element+1, column=0)
-            self.entries[element].grid(row=element+1, column=1)
-        self.classifyButton.grid(row=len(self.featureLabels)+1, column=1)
+            self.featureLabels[element].grid(row=element + 1, column=0)
+            self.entries[element].grid(row=element + 1, column=1)
+        self.classifyButton.grid(row=len(self.featureLabels) + 1, column=1)
         self.classifierResultLabel.grid(row=len(self.featureLabels) + 2, column=0)
         self.classifierResult.grid(row=len(self.featureLabels) + 2, column=1)
         self.accuracyLabel.grid(row=len(self.featureLabels) + 3, column=0, columnspan=2)
 
 
 def start(identifier):
-        gui = GUI(identifier)
-        gui.master.title('Naive-Bayes-Klassifikator')
-        gui.mainloop()
-
-
+    gui = GUI(identifier)
+    gui.master.title('Naive-Bayes-Klassifikator')
+    gui.mainloop()
