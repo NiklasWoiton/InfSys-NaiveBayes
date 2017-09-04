@@ -12,11 +12,13 @@ class GUI(tk.Frame):
         self.grid()
         self.initWidgets()
 
+    #Creates all Widgets and then adds them to the Grid
     def initWidgets(self):
         self.initClassifier()
         self.initAccuray()
         self.initLayout()
 
+    #Creates the Labels and Entries and Button for the Input of Data and start of Classification
     def initClassifier(self):
         self.topLabel = (tk.Label(self, text="Bewertungen von 0 bis 5"))
         self.featureLabels = []
@@ -28,6 +30,7 @@ class GUI(tk.Frame):
         self.classifierResultLabel = tk.Label(self, text=self.classifier.identifier[0] + ":")
         self.classifierResult = tk.Label(self, text="-")
 
+    #Handles the press of the classifyButton and changes the Text of classifierResult
     def onClassifyButtonPressed(self):
         featureList = []
         for element in range(1, len(self.entries)):
@@ -45,11 +48,13 @@ class GUI(tk.Frame):
         else:
             self.classifierResult["text"] = "INVALID INPUT"
 
+    #Creates a Label with the Accuracy of the Classifier
     def initAccuray(self):
         testPartition = 0.9
         self.accuracyLabel = tk.Label(self, text="(Klassifikationsgenauigkeit von ≈ " + str(
             int(math.floor(self.classifier.trainClassifier(testPartition) * 100))) + "%)")
 
+    #Adds the GUI-Elements to the Grid
     def initLayout(self):
         self.topLabel.grid(row=0, column=0, columnspan=2)
         for element in range(0, len(self.featureLabels)):
@@ -61,6 +66,7 @@ class GUI(tk.Frame):
         self.accuracyLabel.grid(row=len(self.featureLabels) + 3, column=0, columnspan=2)
 
 
+#Creates a GUI Instance, adds its Title, and keeps it running
 def start(identifier):
     gui = GUI(identifier)
     gui.master.title('Naive-Bayes-Klassifikator')
