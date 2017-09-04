@@ -16,7 +16,7 @@ class NBClassifier(object):
     """
     Creates a List of Tuples out of the CSV-DataSet and extracts the first Element,
     as it contains the Descriptions for the Columns and is not a Data-Point
-     """
+    """
     def transformedData(self, csvDataSet):
         readCSV = csv.reader(open(csvDataSet, "rb"))
         self.listDataSet = [tuple(line) for line in readCSV]
