@@ -8,14 +8,13 @@ import GUI
 
 
 class NBClassifier(object):
-    def __init__(self, csvDataSet):
-        self.csvDataSet = csvDataSet
-        self.transformedData()
+    def __init__(self, csvDataSet)
+        self.transformedData(csvDataSet)
         self.trainClassifier()
         GUI.start(self)
 
-    def transformedData(self):
-        readCSV = csv.reader(open(self.csvDataSet, "rb"))
+    def transformedData(self, csvDataSet):
+        readCSV = csv.reader(open(csvDataSet, "rb"))
         self.listDataSet = [tuple(line) for line in readCSV]
         self.identifier = self.listDataSet.pop(0)
         random.shuffle(self.listDataSet)
